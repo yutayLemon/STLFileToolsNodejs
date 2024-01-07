@@ -668,6 +668,8 @@ function sinGrath(x,y){
 }
 
 
+//usage example
+/*
 var soMatix = [[2,1,0],[-1,3,0],[0,0,4]];
 var rotation = [[Math.cos(1),0,Math.sin(1)],[0,1,0],[-1*Math.sin(1),0,Math.cos(1)]];
 StartSTLFile("testSTL.stl","testingg").then(()=>{
@@ -678,4 +680,4 @@ FlatMeshFromFunction("testSTL.stl",0.1,100,100,1,sinGrath,offset,MatrixMultiMatr
 endSTLFile("testSTL.stl","testingg");
     
 });
-
+*/
