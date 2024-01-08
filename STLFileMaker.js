@@ -539,8 +539,8 @@ TextData += LogTriangle(tempVect2, tempVect3, tempVect4, tempNormal);
             tempVect2 = MatrixMultiplication(Matrix,tempVect2);
             tempVect3 = MatrixMultiplication(Matrix,tempVect3);
             tempVect4 = MatrixMultiplication(Matrix,tempVect4);
-		TextData += LogTriangle(tempVect1, tempVect3, tempVect2, tempNormal);
-		TextData += LogTriangle(tempVect2, tempVect3, tempVect4, tempNormal);
+		TextData += LogTriangle(tempVect1, tempVect2, tempVect3, tempNormal);
+		TextData += LogTriangle(tempVect2, tempVect4, tempVect3, tempNormal);
 	}
 
 	for (var i = 1; i < height; i++) {
@@ -583,8 +583,8 @@ TextData += LogTriangle(tempVect2, tempVect3, tempVect4, tempNormal);
             tempVect2 = MatrixMultiplication(Matrix,tempVect2);
             tempVect3 = MatrixMultiplication(Matrix,tempVect3);
             tempVect4 = MatrixMultiplication(Matrix,tempVect4);
-		TextData += LogTriangle(tempVect2, tempVect1, tempVect3, tempNormal);
-		TextData += LogTriangle(tempVect2, tempVect3, tempVect4, tempNormal);
+		TextData += LogTriangle(tempVect2, tempVect3, tempVect1, tempNormal);
+		TextData += LogTriangle(tempVect2, tempVect4, tempVect3, tempNormal);
 	}
 
 	for (var i = 1; i < height; i++) {
