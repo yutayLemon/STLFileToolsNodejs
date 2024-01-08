@@ -42,9 +42,9 @@ function vectorOPdisply(vect1) {
 //crossproduct generates othorgonal vector perpendiculer to the other 2
 function vectorOPCrossProd(vect1,vect2) {
 	var temp = new cord(0,0,0);
-	temp.x = vect1.y * vect2.z - vect1.z * vect2.y;
-	temp.y = vect1.z * vect2.x - vect1.x * vect2.z;
-	temp.z = vect1.x * vect2.y - vect1.y * vect2.x;
+	temp.x = (vect1.y * vect2.z) - (vect1.z * vect2.y);
+	temp.y = (vect1.z * vect2.x) - (vect1.x * vect2.z);
+	temp.z = (vect1.x * vect2.y) - (vect1.y * vect2.x);
 
 	return temp;
 }
@@ -198,7 +198,7 @@ async function FlatMeshFromFunction(path,cellSize,height,width,hightParm,CordAt,
         offSet = new cord(0,0,0);
     }
     if(Matrix == undefined){
-        Matrix = [[1,1,1],[1,1,1],[1,1,1]];
+        Matrix = [[1,0,0],[0,1,0],[0,0,1]];
     }
     if(CordAt == undefined){
         CordAt = function(x,y){
@@ -227,7 +227,7 @@ async function FlatMeshFromFunction(path,cellSize,height,width,hightParm,CordAt,
 		console.log("GenMesh Layer:" + i);
 		for (var l = 0; l < width - 1; l++) {
 			//width x
-
+            
 
 			//vectors for each corner(cordinates)
 			var tempVect1 = new cord(0,0,0);
@@ -251,7 +251,9 @@ tempVect2= vectorOPadd(tempVect2,offSet);
 			//tempVect3.z = 0;
 			tempVect3.x = (l * cellSize) + cellSize;
 			tempVect3.y = (i * cellSize);//width
-tempVect3 = vectorOPadd(tempVect3,offSet);
+            
+            console.log(tempVect3);
+            tempVect3 = vectorOPadd(tempVect3,offSet);
 
             
 			var tempVect4 = new cord(0,0,0);
@@ -296,7 +298,7 @@ async function RectMeshFromFunction(path,cellSize,height,width,hightParm,CordAt,
         elevation = 0;
     }
     if(Matrix == undefined){
-        Matrix = [[1,1,1],[1,1,1],[1,1,1]];
+        Matrix = [[1,0,0],[0,1,0],[0,0,1]];
     }
     if(CordAt == undefined){
         CordAt = function(x,y){
@@ -345,13 +347,13 @@ tempVect2= vectorOPadd(tempVect2,offSet);
 
             
 			var tempVect3 = new cord(0,0,0);
-			tempVect3.z = CordAt(i, l + 1) * hightParm + elevation;
+			tempVect3.z = (CordAt(i, l + 1) * hightParm) + elevation;
 			//tempVect3.z = 0;
 			tempVect3.x = (l * cellSize) + cellSize;
 			tempVect3.y = (i * cellSize);//width
-tempVect3 = vectorOPadd(tempVect3,offSet);
-
             
+tempVect3 = vectorOPadd(tempVect3,offSet);
+           
 			var tempVect4 = new cord(0,0,0);
 			tempVect4.z = CordAt(i + 1, l + 1) * hightParm + elevation;
 			//tempVect4.z = 0;
@@ -381,8 +383,9 @@ tempVect4 = vectorOPadd(tempVect4,offSet);
             tempVect2 = MatrixMultiplication(Matrix,tempVect2);
             tempVect3 = MatrixMultiplication(Matrix,tempVect3);
             tempVect4 = MatrixMultiplication(Matrix,tempVect4);
-			TextData += LogTriangle(tempVect3, tempVect2, tempVect1, STLNormal(tempVect1, tempVect3, tempVect2));
-			TextData += LogTriangle(tempVect4, tempVect2, tempVect3, STLNormal(tempVect3, tempVect4, tempVect2));
+           
+			TextData += LogTriangle(tempVect3, tempVect2, tempVect1, STLNormal(tempVect3, tempVect2, tempVect1));
+			TextData += LogTriangle(tempVect4, tempVect2, tempVect3, STLNormal(tempVect4, tempVect2, tempVect3));
 			//log triangle with normalline                           middle,
 			//vectorOPdisply(tempMidvect);
 			//vectorOPdisply(tempVect2);
