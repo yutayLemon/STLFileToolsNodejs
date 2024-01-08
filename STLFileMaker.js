@@ -1,4 +1,4 @@
-const fs = require('node:fs');
+const fs = require('node:fs').promises;
 
 
 
@@ -189,13 +189,8 @@ async function GenSphere(path,r,pointsPerSlice,bottomStart, RadiusAtPoint) {
     
     
     //TODO log file
-    fs.appendFile(path,DataText,(err)=>{
-        if(err){
-            console.log(err);
-        }else{
-            console.log("spher finished");
-        }
-    });
+    await fs.appendFile(path,DataText);
+    return 0;
 }
 async function FlatMeshFromFunction(path,cellSize,height,width,hightParm,CordAt,offSet,Matrix) {
 	//gen top mesh
@@ -289,11 +284,8 @@ tempVect4 = vectorOPadd(tempVect4,offSet);
 	}
     
 	// gen top mesh
-	 fs.appendFile(path,DataText,(err)=>{
-        if(err){
-            console.log(err);
-        }
-    });
+	await fs.appendFile(path,DataText);
+    return 0;
 }
 async function RectMeshFromFunction(path,cellSize,height,width,hightParm,CordAt,offSet,elevation,Matrix) {
 	//gen top mesh
@@ -637,38 +629,46 @@ TextData += LogTriangle(tempVect2, tempVect4, tempVect3, tempNormal);
 	}
 //fill wall
     
-      fs.appendFile(path,TextData,(err)=>{
-        if(err){
-            console.log(err);
-        }
-    });
+      await fs.appendFile(path,TextData);
     return 0;
 }
 
 
 async function StartSTLFile(path,name){
-      fs.writeFile(path,"solid " + name + "\n",(err)=>{
-        if(err){
-            console.log(err);
-        }
-    });
-   return 0;
+    await fs.writeFile(path,"solid " + name + "\n");
+    console.log('start file:' + name);
+    return 0;
 }
 
 async function endSTLFile(path,name){
-     fs.appendFile(path,("endsolid " + name),(err)=>{
-        if(err){
-            console.log(err);
-        }
-    });
-}
+     await fs.appendFile(path,("endsolid " + name));
+    console.log('end file:' + name);
+return 0;
+                         }
 
 function sinGrath(x,y){
     return Math.sin(Math.sqrt(((x-50)/10)*((x-50)/10) + ((y-50)/10) * ((y-50)/10)));  
 }
 
-
-//usage example
+module.exports.vectorOPadd = vectorOPadd;
+module.exports.vectorOPmins = vectorOPmins;
+module.exports.vectorOPmult = vectorOPmult;
+module.exports.vectorOPlen = vectorOPlen;
+module.exports.vectorOPUnit = vectorOPUnit;
+module.exports.vectorOPdisply = vectorOPdisply;
+module.exports.vectorOPCrossProd = vectorOPCrossProd;
+module.exports.STLNormal = STLNormal;
+module.exports.LogTriangle = LogTriangle;
+module.exports.MatrixMultiplication = MatrixMultiplication;
+module.exports.MatrixMultiMatrix = MatrixMultiMatrix;
+module.exports.RadiusAtPointSphere = RadiusAtPointSphere;
+module.exports.GenSphere = GenSphere;
+module.exports.FlatMeshFromFunction = FlatMeshFromFunction;
+module.exports.RectMeshFromFunction = RectMeshFromFunction;
+module.exports.StartSTLFile = StartSTLFile;
+module.exports.endSTLFile = endSTLFile;
+module.exports.sinGrath = sinGrath;
+module.exports.cord = cord;
 /*
 var soMatix = [[2,1,0],[-1,3,0],[0,0,4]];
 var rotation = [[Math.cos(1),0,Math.sin(1)],[0,1,0],[-1*Math.sin(1),0,Math.cos(1)]];
@@ -680,4 +680,5 @@ FlatMeshFromFunction("testSTL.stl",0.1,100,100,1,sinGrath,offset,MatrixMultiMatr
 endSTLFile("testSTL.stl","testingg");
     
 });
+
 */
