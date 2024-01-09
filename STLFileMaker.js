@@ -427,7 +427,7 @@ var tempVect2 = new cord(0,0,0);
 		tempVect4.y = (i * cellSize) + cellSize;
 
 var tempNormal = new cord(0,0,0);
-		tempNormal.z = 1;
+		tempNormal.z = -1;
 		//tempMidvect.z = 0;
 		tempNormal.x = 0;
 		tempNormal.y = 0;
@@ -441,8 +441,8 @@ var tempNormal = new cord(0,0,0);
             tempVect2 = MatrixMultiplication(Matrix,tempVect2);
             tempVect3 = MatrixMultiplication(Matrix,tempVect3);
             tempVect4 = MatrixMultiplication(Matrix,tempVect4);
-		TextData += LogTriangle(tempVect2, tempVect1, tempVect3, tempNormal);
-		TextData += LogTriangle(tempVect2, tempVect3, tempVect4, tempNormal);
+		TextData += LogTriangle(tempVect2, tempVect3, tempVect1, tempNormal);
+		TextData += LogTriangle(tempVect2, tempVect4, tempVect3, tempNormal);
 
 		//log triangle with normalline                           middle,
 		//vectorOPdisply(tempMidvect);
