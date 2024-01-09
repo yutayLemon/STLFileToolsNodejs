@@ -179,7 +179,7 @@ return stl.endSTLFile("testSTL.stl","testingg");
 
 ****the RectMeshFromFunction has one extra variable elevation then FlatMeshFromFunction***
 
-```
+```js
 
 async function
 
@@ -194,7 +194,7 @@ RectMeshFromFunction(path,cellSize,length,width,hightParm,CordAt,offSet,elevatio
 - hightParm : z values from user function is multiplied by this.Not so useful.
 - CordAt : function which returns z value from x and y positions.x is between 0 and width,y is between 0 and height(EgFunction(x,y))
 
-```
+```js
 
 function example(x,y){
 
@@ -216,31 +216,20 @@ The following example creates a natural looking mesh from perlin noise where val
 
   
   
-```
+```js
 const stl = require('stlfiletools');
-
 function perlinnoise(x,y){
-
 //~
-
 //perlin code
-
 //~
-
 }
 
 //start stl file
-
 stl.StartSTLFile("testSTL.stl","testingg").then(()=>{
-
 return stl.RectMeshFromFunction("testSTL.stl",0.5,140,80,1,perlinnoise,undefined,1,undefined);
-
 }).then(()=>{
-
 return stl.endSTLFile("testSTL.stl","testingg");
-
 });
-
  ```
   
   
@@ -260,14 +249,10 @@ async function FlatMeshFromFunction(path,cellSize,length,width,hightParm,CordAt,
 - hightParm : z values from user function is multiplied by this.Not so useful.
 - CordAt : user defined function which returns z value from x and y positions.x is between 0 and width,y is between 0 and height.
 
-```
-
+```js
 function example(x,y){
-
 return 1;
-
 }
-
 ```
 
 - offset : cord class.states offset from original position.-optional
@@ -280,41 +265,27 @@ The following example creates a plane from a user defined function cosGrath and 
 
   
   
-```
+```js
 const stl = require('stlfiletools');
 
-  
-
 //rotation matrix
-
 var rotation = [[Math.cos(1),0,Math.sin(1)],[0,1,0],[-1*Math.sin(1),0,Math.cos(1)]];
 
-  
-
 //user defined function
-
 function cosGrath(x,y){
-
 return Math.cos(Math.sqrt(((x*2-50)/10)*((x*2-50)/10) + ((y*2-50)/10) * ((y*2-50)/10)));
-
 }
 
 //starts stl file
-
 stl.StartSTLFile("testSTL.stl","testingg").then(()=>{
 
 //sets offset
-
 var offset = new stl.cord(0,0,15);
 
 //creates mesh
-
 return stl.FlatMeshFromFunction("testSTL.stl",0.1,100,100,1,cosGrath,offset,rotation);
-
 }).then(()=>{
-
 return stl.endSTLFile("testSTL.stl","testingg");
-
 });
 ```
 ## Precise functions
@@ -325,10 +296,8 @@ These are functions which are the bases of the mesh Generation functions.
 
 **STLNormal()**
 
-```
-
+```js
 function STLNormal(vect1,vect2,vect3)
-
 ```
 
   
@@ -343,10 +312,8 @@ A normal vector in the class cord is returned.The length of the normal vector is
 
 **LogTriangle()**
 
-```
-
+```js
 function LogTriangle(vect1,vect2, vect3, normal)
-
 ```
 
 Returns a string about the triangle which can be added to a stl file.The start and end functions are still necessary.The vectors should be in order of right hand rule and the normal should be pointing out.
@@ -368,10 +335,8 @@ Returns a string about the triangle which can be added to a stl file.The start a
 
 Built in example for the rect and flat meshes,returns a value based on x and y.
 
-```
-
+```js
 function sinGrath(x,y)
-
 ```
 
   
@@ -385,10 +350,8 @@ function sinGrath(x,y)
 
 Built in example for sphere mesh,always returns r.
 
-```
-
+```js
 function RadiusAtPointSphere( theta, epsilon, r)
-
 ```
 
   
