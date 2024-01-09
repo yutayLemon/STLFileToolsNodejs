@@ -23,7 +23,7 @@ The following is an example and demonstration of the library where a cos graph i
 ![simpleDemo](https://github.com/yutayLemon/STLFileToolsNodejs/blob/main/documentation/SimpleDemo.png?raw=true)
 
   
-```
+```js
 const stl = require('stlfiletools');
 
 var soMatix = [[2,1,0],[-1,3,0],[0,0,4]];
@@ -66,7 +66,7 @@ return stl.endSTLFile("testSTL.stl","testingg");
 
 This class will be used repeatedly for coordinates in 3 dimensions.
 
-```
+```js
 
 class cord {
 constructor(x,y,z){
@@ -86,7 +86,7 @@ this.z = z;
 
 **StartSTLFile()**
 
-```
+```js
 
 async function StartSTLFile(path,name)
 
@@ -103,9 +103,9 @@ Starts a stl file.Returns 0 when finished.
 **endSTLFile()**
 
   
-
+```js
 async function endSTLFile(path,name)
-
+```
 - path:path to stl file
 
 - name:name same as the starting name
@@ -118,7 +118,7 @@ ends stl file.Returns 0 when finished
 
 **GenSphere()**
 
-```
+```js
 
 async function GenSphere(path,r,pointsPerSlice,bottomStart, RadiusAtPoint)
 
@@ -136,7 +136,7 @@ async function GenSphere(path,r,pointsPerSlice,bottomStart, RadiusAtPoint)
 
 - RadiusAtPoint : User defined function which returns radius at given point with the parameters theta : anglein radian from positive z axis,epsilon : angle in radian from horizontal axis,r : base radius.
 
-```
+```js
 
 function example(theta,epsilon,r){
 return r ;
@@ -149,27 +149,20 @@ return r ;
 example
 
 ![sphere](https://github.com/yutayLemon/STLFileToolsNodejs/blob/main/documentation/sphereDemo.png?raw=true)
-```
+```js
 const stl = require('stlfiletools');
 
 //starts stl file
-
 stl.StartSTLFile("testSTL.stl","testingg").then(()=>{
 
 var offset = new stl.cord(0,0,15);
 
 //Creates sphere with radius 5
-
 //RadiusAtPointSphere is a built in function which always returns radius
-
 return stl.GenSphere("testSTL.stl",5,30,offset,stl.RadiusAtPointSphere);
-
 }).then(()=>{
-
 //end stl file
-
 return stl.endSTLFile("testSTL.stl","testingg");
-
 });
 ```
   
