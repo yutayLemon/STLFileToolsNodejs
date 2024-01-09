@@ -83,7 +83,7 @@ this.z = z;
 ****for the following functions only path and name are required.All other parameters can be set to undefined if not needed.***
 
 
-##**StartSTLFile()**
+##   **StartSTLFile()**
 
 ```js
 
@@ -99,7 +99,7 @@ Starts a stl file.Returns 0 when finished.
 
   
 
-##**endSTLFile()**
+##   **endSTLFile()**
 
   
 ```js
@@ -115,7 +115,7 @@ ends stl file.Returns 0 when finished
 
   
 
-##**GenSphere()**
+##   **GenSphere()**
 
 ```js
 
@@ -167,7 +167,7 @@ return stl.endSTLFile("testSTL.stl","testingg");
   
   
 
-##**RectMeshFromFunction()**
+##   **RectMeshFromFunction()**
 
 ****the RectMeshFromFunction has one extra variable elevation then FlatMeshFromFunction***
 
@@ -226,7 +226,7 @@ return stl.endSTLFile("testSTL.stl","testingg");
   
   
 
-##**FlatMeshFromFunction()**
+##   **FlatMeshFromFunction()**
 
   
 
@@ -286,7 +286,7 @@ These are functions which are the bases of the mesh Generation functions.
 
   
 
-##**STLNormal()**
+##   **STLNormal()**
 
 ```js
 function STLNormal(vect1,vect2,vect3)
@@ -302,7 +302,7 @@ A normal vector in the class cord is returned.The length of the normal vector is
 
   
 
-##**LogTriangle()**
+##  **LogTriangle()**
 
 ```js
 function LogTriangle(vect1,vect2, vect3, normal)
@@ -422,7 +422,7 @@ return stl.endSTLFile("testSTL.stl","testingg");
 
   
 
-##**sinGrath()**
+##   **sinGrath()**
 
 Built in example for the rect and flat meshes,returns a value based on x and y.
 
@@ -437,7 +437,7 @@ function sinGrath(x,y)
 
   
 
-##**RadiusAtPointSphere()**
+##   **RadiusAtPointSphere()**
 
 Built in example for sphere mesh,always returns r.
 
