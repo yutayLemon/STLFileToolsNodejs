@@ -318,7 +318,106 @@ Returns a string about the triangle which can be added to a stl file.The start a
 - vect3 : cord class
 - normal : cord class
 
-  
+example
+```stl
+solid testingg
+facet normal 9.035398e-1 -3.720458e-1 2.125976e-1
+outer loop
+vertex 3.000000e+0 0.000000e+0 5.000000e+0
+vertex 5.000000e+0 2.000000e+0 0.000000e+0
+vertex 4.000000e+0 3.000000e+0 6.000000e+0
+endloop
+endfacet
+facet normal 9.801961e-1 1.400280e-1 1.400280e-1
+outer loop
+vertex 4.000000e+0 3.000000e+0 6.000000e+0
+vertex 5.000000e+0 2.000000e+0 0.000000e+0
+vertex 4.000000e+0 5.000000e+0 4.000000e+0
+endloop
+endfacet
+facet normal 3.333333e-1 6.666667e-1 6.666667e-1
+outer loop
+vertex 4.000000e+0 3.000000e+0 6.000000e+0
+vertex 4.000000e+0 5.000000e+0 4.000000e+0
+vertex 0.000000e+0 6.000000e+0 5.000000e+0
+endloop
+endfacet
+facet normal -5.986711e-1 -6.651901e-2 7.982281e-1
+outer loop
+vertex 4.000000e+0 3.000000e+0 6.000000e+0
+vertex 0.000000e+0 3.000000e+0 3.000000e+0
+vertex 3.000000e+0 0.000000e+0 5.000000e+0
+endloop
+endfacet
+facet normal -4.396484e-1 -7.593927e-1 -4.796165e-1
+outer loop
+vertex 3.000000e+0 0.000000e+0 5.000000e+0
+vertex 0.000000e+0 3.000000e+0 3.000000e+0
+vertex 5.000000e+0 2.000000e+0 0.000000e+0
+endloop
+endfacet
+facet normal -2.214037e-1 7.527727e-1 -6.199304e-1
+outer loop
+vertex 5.000000e+0 2.000000e+0 0.000000e+0
+vertex 0.000000e+0 3.000000e+0 3.000000e+0
+vertex 4.000000e+0 5.000000e+0 4.000000e+0
+endloop
+endfacet
+facet normal -6.917145e-2 5.533716e-1 -8.300574e-1
+outer loop
+vertex 4.000000e+0 5.000000e+0 4.000000e+0
+vertex 0.000000e+0 3.000000e+0 3.000000e+0
+vertex 0.000000e+0 6.000000e+0 5.000000e+0
+endloop
+endfacet
+facet normal -5.294118e-1 -4.705882e-1 7.058824e-1
+outer loop
+vertex 0.000000e+0 6.000000e+0 5.000000e+0
+vertex 0.000000e+0 3.000000e+0 3.000000e+0
+vertex 4.000000e+0 3.000000e+0 6.000000e+0
+endloop
+endfacet
+endsolid testingg
+```
+```js
+const stl = require('stlfiletools');
+const fs = require('fs').promises;
+
+
+
+
+var off = new stl.cord(0,0,15);
+
+stl.StartSTLFile("testSTL.stl","testingg").then(()=>{
+
+    
+    var textData = '';
+    
+    var v1 = new stl.cord(3,0,5);
+    var v2 = new stl.cord(5,2,0);
+    var v3 = new stl.cord(4,5,4);
+    var v4 = new stl.cord(0,6,5);
+    var v5 = new stl.cord(4,3,6);
+    var v6 = new stl.cord(0,3,3);
+    
+    //triangles
+    textData += stl.LogTriangle(v1,v2,v5,stl.STLNormal(v1,v2,v5));
+    textData += stl.LogTriangle(v5,v2,v3,stl.STLNormal(v5,v2,v3));
+    textData += stl.LogTriangle(v5,v3,v4,stl.STLNormal(v5,v3,v4));
+    textData += stl.LogTriangle(v5,v6,v1,stl.STLNormal(v5,v6,v1));
+    textData += stl.LogTriangle(v1,v6,v2,stl.STLNormal(v1,v6,v2));
+    textData += stl.LogTriangle(v2,v6,v3,stl.STLNormal(v2,v6,v3));
+    textData += stl.LogTriangle(v3,v6,v4,stl.STLNormal(v3,v6,v4));
+    textData += stl.LogTriangle(v4,v6,v5,stl.STLNormal(v4,v6,v5));
+    fs.appendFile('testSTL.stl',textData);
+    return 0;
+    
+}).then(()=>{
+return stl.endSTLFile("testSTL.stl","testingg");
+});
+
+
+```
 
 ## Helper functions
 
