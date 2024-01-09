@@ -16,7 +16,7 @@ eg perlin Noise
   
   
 
-## example/Demonstration
+# example/Demonstration
 
 The following is an example and demonstration of the library where a cos graph is used as the custom function.The parameters will be explained later.
 
@@ -58,7 +58,7 @@ return stl.endSTLFile("testSTL.stl","testingg");
 
   
 ```
-## Cords
+# Cords
 
   
 
@@ -78,13 +78,12 @@ this.z = z;
 
 ```
 
-## Mesh Generation Functions
+# Mesh Generation Functions
 
 ****for the following functions only path and name are required.All other parameters can be set to undefined if not needed.***
 
-  
 
-**StartSTLFile()**
+##**StartSTLFile()**
 
 ```js
 
@@ -100,7 +99,7 @@ Starts a stl file.Returns 0 when finished.
 
   
 
-**endSTLFile()**
+##**endSTLFile()**
 
   
 ```js
@@ -116,7 +115,7 @@ ends stl file.Returns 0 when finished
 
   
 
-**GenSphere()**
+##**GenSphere()**
 
 ```js
 
@@ -168,7 +167,7 @@ return stl.endSTLFile("testSTL.stl","testingg");
   
   
 
-**RectMeshFromFunction()**
+##**RectMeshFromFunction()**
 
 ****the RectMeshFromFunction has one extra variable elevation then FlatMeshFromFunction***
 
@@ -227,7 +226,7 @@ return stl.endSTLFile("testSTL.stl","testingg");
   
   
 
-**FlatMeshFromFunction()**
+##**FlatMeshFromFunction()**
 
   
 
@@ -281,13 +280,13 @@ return stl.FlatMeshFromFunction("testSTL.stl",0.1,100,100,1,cosGrath,offset,rota
 return stl.endSTLFile("testSTL.stl","testingg");
 });
 ```
-## Precise functions
+# Precise functions
 
 These are functions which are the bases of the mesh Generation functions.
 
   
 
-**STLNormal()**
+##**STLNormal()**
 
 ```js
 function STLNormal(vect1,vect2,vect3)
@@ -303,7 +302,7 @@ A normal vector in the class cord is returned.The length of the normal vector is
 
   
 
-**LogTriangle()**
+##**LogTriangle()**
 
 ```js
 function LogTriangle(vect1,vect2, vect3, normal)
@@ -320,7 +319,7 @@ Returns a string about the triangle which can be added to a stl file.The start a
 
 example
 ```stl
-solid testingg
+[solid testingg
 facet normal 9.035398e-1 -3.720458e-1 2.125976e-1
 outer loop
 vertex 3.000000e+0 0.000000e+0 5.000000e+0
@@ -377,7 +376,7 @@ vertex 0.000000e+0 3.000000e+0 3.000000e+0
 vertex 4.000000e+0 3.000000e+0 6.000000e+0
 endloop
 endfacet
-endsolid testingg
+endsolid testingg]
 ```
 ```js
 const stl = require('stlfiletools');
@@ -419,11 +418,11 @@ return stl.endSTLFile("testSTL.stl","testingg");
 
 ```
 
-## Helper functions
+# Helper functions
 
   
 
-**sinGrath()**
+##**sinGrath()**
 
 Built in example for the rect and flat meshes,returns a value based on x and y.
 
@@ -438,7 +437,7 @@ function sinGrath(x,y)
 
   
 
-**RadiusAtPointSphere()**
+##**RadiusAtPointSphere()**
 
 Built in example for sphere mesh,always returns r.
 
@@ -451,3 +450,5 @@ function RadiusAtPointSphere( theta, epsilon, r)
 - theta : radian angle from pos z axis
 - epsilon : radian angle horizontal
 - r : number base radius
+
+
