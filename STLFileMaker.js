@@ -11,7 +11,6 @@ constructor(x,y,z){
 };
 //z as up
 
-
 ///simple add
 function vectorOPadd(vec1,vec2) {
 	var temp = new cord(vec1.x + vec2.x,vec1.y + vec2.y,vec1.z + vec2.z);
@@ -637,6 +636,194 @@ TextData += LogTriangle(tempVect2, tempVect3, tempVect4, tempNormal);
 }
 
 
+//TODO  fix
+async function BlockyMesh(path,cellSize,height,width,hightParm,CordAt,offSet,elevation){
+    //gen top mesh
+    if(offSet == undefined){
+        offSet = new cord(0,0,0);
+    }
+    if(elevation == undefined){
+        elevation = 0;
+    }
+    if(CordAt == undefined){
+        CordAt = function(x,y){
+            return 1;
+        }
+    }
+    if(path == undefined){
+        console.log("err path not set");
+    }
+    if(cellSize == undefined){
+        cellSize = 1;
+    }
+    if(height == undefined){
+        height = 100;
+    }
+    if(width == undefined){
+        width = 100;
+    }
+    if(hightParm == undefined){
+        hightParm = 1;
+    }
+    var DataText = '';
+    for(var y = 0;y<height;y++){//add edge cases
+       for(var x = 0;x<width;x++){
+           /*
+                                    BlockTOPvectTOPLEFT               BlockTOPvectTOPRIGHT
+                                          |                                       |
+                                          |                                       |
+           BlockLEFTvecttopLEFT   ----vecttopleft   ------------------------vecttopright   ----BlockRIGHTvecttopRight
+                                          |                                       |
+                                          |                                       |
+           BlockLEFTvectbottomLEFT----vectbottomleft-----------------------vectbottomright----BlockRIGHTvectbottomRight
+                                          |                                       |
+                                          |                                       |
+                                BlockBOTTOMvectBOTTOMLEFT             BlockBOTTOMvectBOTTOMRIGHT
+                                
+                                
+                                                                 (vecttopleft.x,vecttopleft.y,CordAt(y-1,x))  (vecttopright.x,vecttopright.y,CordAt(y-1,x))
+                                                                                      |                                              |             
+            (vecttopleft.x,vecttopleft.y,CordAt(y,x-1))--(x*cellSize,y*cellSize,CordAt(y,x))--(x*cellSize + cellSize,y*cellSize,CordAt(y,x))--vecttopright.x,vecttopright.y,CordAt(y,x+1)
+                                                                                      |                                              |
+            (vectbottomleft.x,vectbottomleft.y,CordAt(y,x-1))--(x*cellSize,y*cellSize + cellSize,CordAt(y,x))--(x*cellSize + cellSize,y*cellSize + cellSize,CordAt(y,x))--(vectbottomright.x,vectbottomright.y,CordAt(y,x+1))
+                                                                                      |                                              |
+                                                          (vectbottomleft.x,vectbottomleft.y,CordAt(y+1,x))  (vectbottomright.x,vectbottomright.y,CordAt(y+1,x))
+           */
+           var vecttopleft = new cord(x*cellSize,y*cellSize,(CordAt(x,y)*hightParm) +  elevation);
+           var vecttopright = new cord(x*cellSize + cellSize,y*cellSize  ,(CordAt(x,y)*hightParm) + elevation);
+           var vectbottomleft = new cord(x*cellSize,y*cellSize + cellSize,(CordAt(x,y)*hightParm) + elevation);
+           var vectbottomright = new cord(x*cellSize + cellSize,y*cellSize + cellSize,(CordAt(x,y)*hightParm) + elevation);
+           
+            vecttopleft = vectorOPadd(offSet,vecttopleft);
+            vecttopright = vectorOPadd(offSet,vecttopright);
+            vectbottomleft = vectorOPadd(offSet,vectbottomleft);
+            vectbottomright = vectorOPadd(offSet,vectbottomright);
+           
+           var BlockRIGHTvecttopRight;
+           var BlockRIGHTvectbottomRight;
+           var BlockLEFTvecttopLEFT;
+           var BlockLEFTvectbottomLEFT;
+           var BlockBOTTOMvectBOTTOMLEFT;
+           var BlockBOTTOMvectBOTTOMRIGHT;
+           if(x >= ( width-1)){
+               //console.log("tomcuch width");
+            BlockRIGHTvecttopRight = new cord(vecttopright.x,vecttopright.y,offSet.z);  
+            BlockRIGHTvectbottomRight = new cord(vectbottomright.x,vectbottomright.y,offSet.z);
+           }else{
+            BlockRIGHTvecttopRight = new cord(vecttopright.x,vecttopright.y,(CordAt(x+1,y)*hightParm)+elevation + offSet.z);//todo no overflow
+            BlockRIGHTvectbottomRight = new cord(vectbottomright.x,vectbottomright.y,(CordAt(x+1,y)*hightParm)+elevation+ offSet.z);
+
+           }
+           
+           if(x <= 0){
+         //      console.log("wt");
+            BlockLEFTvecttopLEFT = new cord(vecttopleft.x,vecttopleft.y,offSet.z);
+            BlockLEFTvectbottomLEFT = new cord(vectbottomleft.x,vectbottomleft.y,offSet.z)
+           }else{
+            BlockLEFTvecttopLEFT = new cord(vecttopleft.x,vecttopleft.y,((CordAt(x-1,y)*hightParm)*hightParm)+elevation+ offSet.z);
+            BlockLEFTvectbottomLEFT = new cord(vectbottomleft.x,vectbottomleft.y,(CordAt(x-1,y)*hightParm)+elevation+ offSet.z);
+           }
+           
+           if(y <= 0){
+             BlockTOPvectTOPLEFT = new cord(vecttopleft.x,vecttopleft.y,offSet.z);
+             BlockTOPvectTOPRIGHT = new cord(vecttopright.x,vecttopright.y,offSet.z);
+           }else{
+            BlockTOPvectTOPLEFT = new cord(vecttopleft.x,vecttopleft.y,(CordAt(x,y-1)*hightParm)+elevation+ offSet.z);
+            BlockTOPvectTOPRIGHT = new cord(vecttopright.x,vecttopright.y,(CordAt(x,y-1)*hightParm)+elevation+ offSet.z);
+           }
+           
+           if(y >= (height - 1)){//edge case
+            BlockBOTTOMvectBOTTOMLEFT = new cord(vectbottomleft.x,vectbottomleft.y,offSet.z);
+            BlockBOTTOMvectBOTTOMRIGHT = new cord(vectbottomright.x,vectbottomright.y,offSet.z);
+           }else{
+            BlockBOTTOMvectBOTTOMLEFT = new cord(vectbottomleft.x,vectbottomleft.y,(CordAt(x,y+1)*hightParm)+elevation+ offSet.z);
+            BlockBOTTOMvectBOTTOMRIGHT = new cord(vectbottomright.x,vectbottomright.y,(CordAt(x,y+1)*hightParm)+elevation+ offSet.z);
+           }
+           
+           //addoffset
+         
+        //gentop
+           var tempNormal = (new cord(0,0,1));
+           //console.log(tempNormal);
+           DataText += LogTriangle(vecttopleft,vecttopright,vectbottomleft,tempNormal);
+           tempNormal = new cord(0,0,1);
+           DataText += LogTriangle(vectbottomright,vectbottomleft,vecttopright,(tempNormal));
+           //gen top squer with 2 triangles
+           //console.log(tempNormal);
+           tempNormal = new cord(0,0,-1);
+           DataText += LogTriangle(new cord(vecttopleft.x,vecttopleft.y,offSet.z), new cord(vectbottomleft.x,vectbottomleft.y,offSet.z), new cord(vecttopright.x,vecttopright.y,offSet.z),tempNormal);
+           DataText += LogTriangle(new cord(vectbottomright.x,vectbottomright.y,offSet.z), new cord(vecttopright.x,vecttopright.y,offSet.z), new cord(vectbottomleft.x,vectbottomleft.y,offSet.z),(tempNormal));
+           //gen top squer with 2 triangles
+           
+           
+           //addeds wall on top side
+           DataText += await CreateWallBlock(vecttopleft,vecttopright,BlockTOPvectTOPLEFT,BlockTOPvectTOPRIGHT,BlockLEFTvecttopLEFT,BlockRIGHTvecttopRight);//front
+           DataText += await CreateWallBlock(vecttopright,vectbottomright,BlockRIGHTvecttopRight,BlockRIGHTvectbottomRight,BlockTOPvectTOPRIGHT,BlockBOTTOMvectBOTTOMRIGHT);//right
+           DataText += await CreateWallBlock(vectbottomright,vectbottomleft,BlockBOTTOMvectBOTTOMRIGHT,BlockBOTTOMvectBOTTOMLEFT,BlockRIGHTvectbottomRight,BlockLEFTvectbottomLEFT);//bottomD
+           DataText += await CreateWallBlock(vectbottomleft,vecttopleft,BlockLEFTvectbottomLEFT,BlockLEFTvecttopLEFT,BlockBOTTOMvectBOTTOMLEFT,BlockTOPvectTOPLEFT);//left
+        //gentop
+           
+           
+           //bottom
+           
+           //bottom
+           
+           
+           
+           
+           
+       }   
+    }
+    await fs.appendFile(path,DataText);
+    return 0;
+    
+}
+
+
+//list when wall is facing same direction,right,left as wall
+function CreateWallBlock(centerLeft,centerRight,FrontLeft,FrontRight,ToLeft,ToRight){
+    return new Promise((resolve)=>{
+        var WallData = '';
+        //only if front
+     if(centerLeft.z > FrontLeft.z){
+           if(centerLeft.z > ToLeft.z && ToLeft.z > FrontLeft.z){
+               //BlockTopvectTopLeft included in terms of top
+           if(centerRight.z > ToRight.z && ToRight.z > FrontRight.z){
+             //both are contained
+               
+               WallData += LogTriangle(centerLeft,ToRight,centerRight,STLNormal(centerLeft,ToRight,centerRight));
+               WallData += LogTriangle(centerLeft,ToLeft,ToRight,STLNormal(centerLeft,ToLeft,ToRight));
+               WallData += LogTriangle(ToLeft,FrontRight,ToRight,STLNormal(ToLeft,FrontRight,ToRight));
+               WallData += LogTriangle(ToLeft,FrontLeft,FrontRight,STLNormal(ToLeft,FrontLeft,ToRight));
+           }else{
+               //only top leftis included
+               
+                WallData += LogTriangle(centerLeft,ToLeft,centerRight,STLNormal(centerLeft,ToLeft,centerRight));
+                WallData += LogTriangle(centerRight,ToLeft,FrontRight,STLNormal(centerRight,ToLeft,FrontRight));
+                WallData += LogTriangle(ToLeft,FrontLeft,FrontRight,STLNormal(ToLeft,FrontLeft,FrontRight));
+               
+           }
+           }else{
+           if(centerRight.z > ToRight.z && ToRight.z > FrontRight.z){
+               //BlockTopvectTopRight included in terms of top
+               //only tp right included
+               
+                WallData += LogTriangle(centerLeft,ToRight,centerRight,STLNormal(centerLeft,ToRight,centerRight));
+                WallData += LogTriangle(centerLeft,FrontLeft,ToRight,STLNormal(centerLeft,FrontLeft,ToRight));
+                WallData += LogTriangle(ToRight,FrontLeft,FrontRight,STLNormal(ToRight,FrontLeft,FrontRight));
+           }else{
+               //no vectercys are included
+                            WallData += LogTriangle(centerLeft,FrontLeft,centerRight,STLNormal(centerLeft,FrontLeft,centerRight));
+                            WallData += LogTriangle(FrontLeft,FrontRight,centerRight,STLNormal(FrontLeft,FrontRight,centerRight));
+
+           }
+           }
+           }
+    resolve(WallData);
+    });
+}
+////TODO remove
+
 async function StartSTLFile(path,name){
     await fs.writeFile(path,"solid " + name + "\n");
     console.log('start file:' + name);
@@ -672,6 +859,7 @@ module.exports.StartSTLFile = StartSTLFile;
 module.exports.endSTLFile = endSTLFile;
 module.exports.sinGrath = sinGrath;
 module.exports.cord = cord;
+module.exports.BlockyMesh = BlockyMesh;
 /*
 var soMatix = [[2,1,0],[-1,3,0],[0,0,4]];
 var rotation = [[Math.cos(1),0,Math.sin(1)],[0,1,0],[-1*Math.sin(1),0,Math.cos(1)]];
