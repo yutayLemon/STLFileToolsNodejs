@@ -280,6 +280,67 @@ return stl.FlatMeshFromFunction("testSTL.stl",0.1,100,100,1,cosGrath,offset,rota
 return stl.endSTLFile("testSTL.stl","testingg");
 });
 ```
+
+## BlockyMesh()
+```js
+async function BlockyMesh(path,cellSize,length,width,hightParm,CordAt,offSet,elevation)
+```
+
+ - path:path to file
+ - cellSize:size of one cell
+ - length:number of cells in y direction.Physical length is cellSize * length
+ - Width:number of cells in x direction.Physical length is cellsize * width
+ - hightParm:z value is times by this
+ - CordAt:function wich returns a hight value from x and y cordinates,0<=x<=width,0<=y<=height
+ eg:
+ ```js
+function At(x,y){
+return GrathInfo2dMatrix[x][y];
+}
+ ```
+ 
+ - offSet:offset of mesh,cord class with x,y,z
+ - elevation:hight values are added on to this
+
+Creates blocky mesh.For Graphs and discrete changes.Async function wich returns 0 when finished.
+example
+the following example uses a 2d matrix to map out hight values;
+![enter image description here](https://github.com/yutayLemon/STLFileToolsNodejs/blob/main/documentation/Blocky.png?raw=true)
+```js
+const stl = require('stlfiletools');
+
+
+
+var CordMatrix = [
+    [3,0,0,0,0,0,0,0,0,10,0,0,0,0,0,0,1],
+    [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+    [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+    [0,0,0,4,0,0,0,0,1,0,0,0,5,0,0,0,1],
+    [0,0,4,5,4,0,0,0,2,0,0,0,0,0,0,0,1],
+    [0,0,0,4,0,0,0,0,3,0,0,0,0,0,0,0,1],
+    [0,0,0,0,0,0,0,0,4,0,0,0,0,0,0,0,1],
+    [0,0,0,0,0,0,0,4,5,5,5,5,5,5,5,5,5],
+    [2,0,0,0,0,0,0,4,5,5,4,0,0,0,0,0,1],
+    [0,0,0,0,0,0,0,0,4,4,0,0,0,0,0,0,1],
+    [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+    [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+    [0,0,2,0,0,0,4,0,0,0,2,0,0,0,5,0,1],
+    [0,1,5,3,0,5,1,3,0,5,3,4,0,5,3,5,1],
+    [0,0,4,0,0,0,2,0,0,0,1,0,0,0,5,0,1],
+    [2,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,1]
+                 ];
+function ret(x,y){
+    return CordMatrix[y][x];
+}
+
+(async function(){
+    
+    var offf = new stl.cord(1,2,1);
+    await stl.StartSTLFile("block.stl",'block');
+    await stl.BlockyMesh("block.stl",5,CordMatrix.length,CordMatrix[0].length,1,ret,offf,5);
+    await stl.endSTLFile("block.stl","block");
+})();
+```
 # Precise functions
 
 These are functions which are the bases of the mesh Generation functions.
