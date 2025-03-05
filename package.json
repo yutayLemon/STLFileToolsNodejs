@@ -1,0 +1,25 @@
+{
+  "name": "stlfiletools",
+  "version": "1.6.0",
+  "description": "Basic tools to create a 3d model in a STL file for 3d printing.Maps a function which takes a position and returns a height onto a rectangle or sphere.eg model generated from perlin noise.",
+  "main": "STLFileMaker.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/yutayLemon/STLFileToolsNodejs.git"
+  },
+  "keywords": [
+    "3D",
+    "stlfile",
+    "tool",
+    "3dprinting"
+  ],
+  "author": "yutay <yutay.lemon@gmail.com>",
+  "license": "GPL-3.0",
+  "bugs": {
+    "url": "https://github.com/yutayLemon/STLFileToolsNodejs/issues"
+  },
+  "homepage": "https://github.com/yutayLemon/STLFileToolsNodejs#readme"
+}
